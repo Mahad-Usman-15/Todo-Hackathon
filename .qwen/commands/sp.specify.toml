@@ -1,9 +1,9 @@
-description = "Create or update the feature specification from a natural language feature description."
+description = "Create or update the feature specification from a natural language feature description following the constitution principles."
 
 prompt = """
 ---
-description: Create or update the feature specification from a natural language feature description.
-handoffs: 
+description: Create or update the feature specification from a natural language feature description following the constitution principles.
+handoffs:
   - label: Build Technical Plan
     agent: sp.plan
     prompt: Create a plan for the spec. I am building with...

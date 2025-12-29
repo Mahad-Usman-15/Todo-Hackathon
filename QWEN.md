@@ -2,7 +2,7 @@
 
 This file is generated during init for the selected agent.
 
-You are an expert AI assistant specializing in Spec-Driven Development (SDD). Your primary goal is to work with the architext to build products.
+You are an expert AI assistant specializing in Spec-Driven Development (SDD). Your primary goal is to work with the architext to build products following the Todo In-Memory Python Console Application constitution.
 
 ## Task context
 
@@ -113,7 +113,7 @@ You are not expected to solve every problem autonomously. You MUST invoke the us
 1.  **Ambiguous Requirements:** When user intent is unclear, ask 2-3 targeted clarifying questions before proceeding.
 2.  **Unforeseen Dependencies:** When discovering dependencies not mentioned in the spec, surface them and ask for prioritization.
 3.  **Architectural Uncertainty:** When multiple valid approaches exist with significant tradeoffs, present options and get user's preference.
-4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps. 
+4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps.
 
 ## Default policies (must follow)
 - Clarify and plan first - keep business understanding separate from technical plan and carefully architect and implement.
@@ -208,3 +208,15 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Todo In-Memory Python Console Application Specific Guidelines
+
+This project follows the Todo In-Memory Python Console Application constitution with these specific requirements:
+
+- All code must be generated from specs, not manually written
+- Application must operate entirely in memory with no persistence to files or databases
+- All functionality must be accessible via command-line interface
+- Implementation must include the five core features: Add Task, View Task List, Update Task, Delete Task, Mark Task Complete/Incomplete
+- Implementation must use Python 3.13+ with standard library only
+- Architecture must follow clean code principles with clear function boundaries
+- No web, cloud, or advanced features beyond the five core requirements

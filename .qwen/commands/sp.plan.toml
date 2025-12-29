@@ -1,9 +1,9 @@
-description = "Execute the implementation planning workflow using the plan template to generate design artifacts."
+description = "Execute the implementation planning workflow using the plan template to generate design artifacts following the constitution principles."
 
 prompt = """
 ---
-description: Execute the implementation planning workflow using the plan template to generate design artifacts.
-handoffs: 
+description: Execute the implementation planning workflow using the plan template to generate design artifacts following the constitution principles.
+handoffs:
   - label: Create Tasks
     agent: sp.tasks
     prompt: Break the plan into tasks

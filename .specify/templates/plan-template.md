@@ -17,21 +17,27 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: Python 3.13+
+**Primary Dependencies**: Python standard library only
+**Storage**: In-memory only, no file or database persistence
+**Testing**: pytest for unit and integration tests
+**Target Platform**: Cross-platform console application
+**Project Type**: Single project with console interface
+**Performance Goals**: Fast response times for task operations in console
+**Constraints**: No external dependencies, no persistence, console-only interface
+**Scale/Scope**: Single-user, in-memory task management
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] Spec-Driven Development Authority: All code must be generated from specs, not manually written
+- [ ] In-Memory Operation Only: No persistence to files or databases
+- [ ] Console-First Interface: All functionality accessible via command-line
+- [ ] Five Core Features: Implementation includes Add Task, View Task List, Update Task, Delete Task, Mark Task Complete/Incomplete
+- [ ] Python-Only Implementation: Using Python 3.13+ with standard library only
+- [ ] Minimalist Architecture: Clean code with clear function boundaries, no unnecessary complexity
+- [ ] Scope Constraints: No web, cloud, or advanced features beyond the five core requirements
 
 ## Project Structure
 
@@ -58,15 +64,15 @@ specs/[###-feature]/
 ```text
 # [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
+├── main.py          # Application entry point
+├── todo/
+│   ├── __init__.py
+│   ├── models.py    # Task data model
+│   ├── service.py   # Business logic
+│   └── cli.py       # Console interaction
+└── tests/
+    ├── unit/
+    └── integration/
 
 # [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
 backend/
