@@ -43,32 +43,66 @@ description: "Task list template for feature implementation"
   ============================================================================
 -->
 
-## Phase 1: Setup (Shared Infrastructure)
+## Phase 1: Basic Level (Core Essentials)
 
-**Purpose**: Project initialization and basic structure
+**Purpose**: Implement the five core features with a simple console interface
+
+**Constitution Alignment**: This phase implements the five core features as required by the constitution
 
 - [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
+- [ ] T002 Initialize Python project with standard library only
 - [ ] T003 [P] Configure linting and formatting tools
-
----
-
-## Phase 2: Foundational (Blocking Prerequisites)
-
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
-
-**⚠️ CRITICAL**: No user story work can begin until this phase is complete
-
-Examples of foundational tasks (adjust based on your project):
-
 - [ ] T004 Create in-memory data structure for task storage
 - [ ] T005 [P] Implement task model with ID, title, description, and completion status
 - [ ] T006 [P] Setup command-line interface structure
 - [ ] T007 Create base models/entities that all stories depend on
 - [ ] T008 Configure error handling and logging infrastructure
 - [ ] T009 Setup application entry point and main loop
+- [ ] T010 Implement Add Task functionality
+- [ ] T011 Implement Delete Task functionality
+- [ ] T012 Implement Update Task functionality
+- [ ] T013 Implement View Task List functionality
+- [ ] T014 Implement Mark as Complete functionality
 
-**Checkpoint**: Foundation ready - user story implementation can now begin in parallel
+**Checkpoint**: Basic Level complete - all five core features implemented
+
+---
+
+## Phase 2: Intermediate Level (Organization & Usability)
+
+**Purpose**: Enhance the Basic Level with additional features to make the app feel polished and practical
+
+**Constitution Alignment**: This phase adds organization and usability features while maintaining in-memory operation and console-first interface
+
+- [ ] T015 [P] Implement Priorities system (high/medium/low)
+- [ ] T016 [P] Implement Tags/Categories system (work/home)
+- [ ] T017 Implement Search functionality by keyword
+- [ ] T018 Implement Filter functionality by status, priority, or date
+- [ ] T019 Implement Sort functionality by due date, priority, or alphabetically
+- [ ] T020 Enhanced error handling and validation
+- [ ] T021 Enhanced user experience with better prompts and feedback
+
+**Checkpoint**: Intermediate Level complete - app feels polished and practical
+
+---
+
+## Phase 3: Advanced Level (Intelligent Features)
+
+**Purpose**: Build upon the Intermediate Level with sophisticated features
+
+**Constitution Alignment**: This phase adds advanced features while maintaining in-memory operation and console-first interface
+
+- [ ] T022 Implement Recurring Tasks functionality
+- [ ] T023 Implement Due Dates functionality
+- [ ] T024 Implement Time Reminders functionality
+- [ ] T025 [P] Export functionality for task data (while maintaining in-memory operation)
+- [ ] T026 [P] Import functionality for task data (while maintaining in-memory operation)
+- [ ] T027 Implement Task statistics and analytics
+- [ ] T028 Implement Customizable user preferences
+- [ ] T029 Implement Batch operations for task management
+- [ ] T030 Implement Advanced command history and shortcuts
+
+**Checkpoint**: Advanced Level complete - sophisticated features implemented
 
 ---
 
@@ -162,35 +196,32 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Phase Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3+)**: All depend on Foundational phase completion
-  - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3)
-- **Polish (Final Phase)**: Depends on all desired user stories being complete
+- **Basic Level (Phase 1)**: No dependencies - can start immediately
+- **Intermediate Level (Phase 2)**: Depends on Basic Level completion
+- **Advanced Level (Phase 3)**: Depends on Intermediate Level completion
+- **Polish (Final Phase)**: Depends on all desired levels being complete
 
-### User Story Dependencies
+### Level Dependencies
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - May integrate with US1 but should be independently testable
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - May integrate with US1/US2 but should be independently testable
+- **Basic Level**: Can start immediately - No dependencies on other levels
+- **Intermediate Level**: Can start after Basic Level completion
+- **Advanced Level**: Can start after Intermediate Level completion
 
-### Within Each User Story
+### Within Each Level
 
 - Tests (if included) MUST be written and FAIL before implementation
 - Models before services
 - Services before endpoints
 - Core implementation before integration
-- Story complete before moving to next priority
+- Level complete before moving to next level
 
 ### Parallel Opportunities
 
-- All Setup tasks marked [P] can run in parallel
-- All Foundational tasks marked [P] can run in parallel (within Phase 2)
-- Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
-- All tests for a user story marked [P] can run in parallel
-- Models within a story marked [P] can run in parallel
-- Different user stories can be worked on in parallel by different team members
+- All Basic Level tasks marked [P] can run in parallel
+- All Intermediate Level tasks marked [P] can run in parallel (within Phase 2)
+- All Advanced Level tasks marked [P] can run in parallel (within Phase 3)
+- All tests for a level marked [P] can run in parallel
+- Models within a level marked [P] can run in parallel
 
 ---
 
@@ -210,41 +241,36 @@ Task: "Create [Entity2] model in src/models/[entity2].py"
 
 ## Implementation Strategy
 
-### MVP First (User Story 1 Only)
+### MVP First (Basic Level Only)
 
-1. Complete Phase 1: Setup
-2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
-3. Complete Phase 3: User Story 1
-4. **STOP and VALIDATE**: Test User Story 1 independently
-5. Deploy/demo if ready
+1. Complete Phase 1: Basic Level (Core Essentials)
+2. **STOP and VALIDATE**: Test all five core features
+3. Deploy/demo if ready
 
 ### Incremental Delivery
 
-1. Complete Setup + Foundational → Foundation ready
-2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
-3. Add User Story 2 → Test independently → Deploy/Demo
-4. Add User Story 3 → Test independently → Deploy/Demo
-5. Each story adds value without breaking previous stories
+1. Complete Basic Level → Core features ready
+2. Add Intermediate Level → Enhanced features → Deploy/Demo
+3. Add Advanced Level → Sophisticated features → Deploy/Demo
+4. Each level adds value without breaking previous levels
 
 ### Parallel Team Strategy
 
 With multiple developers:
 
-1. Team completes Setup + Foundational together
-2. Once Foundational is done:
-   - Developer A: User Story 1
-   - Developer B: User Story 2
-   - Developer C: User Story 3
-3. Stories complete and integrate independently
+1. Team completes Basic Level together (if needed)
+2. Once Basic Level is done:
+   - Developer A: Intermediate Level features
+   - Developer B: Advanced Level features
+3. Levels complete and integrate independently
 
 ---
 
 ## Notes
 
 - [P] tasks = different files, no dependencies
-- [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
+- Each level should be completable and testable as a cohesive unit
 - Verify tests fail before implementing
 - Commit after each task or logical group
-- Stop at any checkpoint to validate story independently
-- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+- Stop at any checkpoint to validate level completion
+- Avoid: vague tasks, same file conflicts, cross-level dependencies that break independence

@@ -1,8 +1,13 @@
 <!--
 Sync Impact Report:
-- Version change: N/A -> 1.0.0
-- Added sections: All principles and governance sections
-- Templates requiring updates: N/A (new constitution)
+- Version change: 1.0.0 -> 1.1.0
+- Added sections: Development Phases section with detailed descriptions for Phase 1 (Basic), Phase 2 (Intermediate), and Phase 3 (Advanced)
+- Modified sections: Governance section (version and amendment date updated)
+- Templates requiring updates:
+  - .specify/templates/plan-template.md (check if needs phase alignment) ✅ updated
+  - .specify/templates/spec-template.md (check if needs phase alignment) ✅ updated
+  - .specify/templates/tasks-template.md (check if needs phase alignment) ✅ updated
+  - .qwen/commands/*.toml (check for outdated references) ✅ verified - no phase references to update
 - Follow-up TODOs: None
 -->
 
@@ -28,6 +33,32 @@ Implementation must use Python 3.13+ with standard library only. No external pac
 ### VI. Minimalist Architecture
 Application must follow clean code principles with clear function boundaries. Implementation should be simple and avoid unnecessary complexity or abstractions.
 
+## Development Phases
+
+### Phase 1: Basic Level (COMPLETED)
+The Basic Level implements the five core features with a simple console interface. All functionality is accessible through command-line commands with basic error handling. Data is stored only in memory and will be lost when the application exits.
+- Add Task – Create new todo items
+- Delete Task – Remove tasks from the list
+- Update Task – Modify existing task details
+- View Task List – Display all tasks
+- Mark as Complete – Toggle task completion status
+
+### Phase 2: Intermediate Level (PLANNED)
+The Intermediate Level will enhance the Basic Level with additional features to make the app feel polished and practical:
+- Priorities & Tags/Categories – Assign levels (high/medium/low) or labels (work/home)
+- Search & Filter – Search by keyword; filter by status, priority, or date
+- Sort Tasks – Reorder by due date, priority, or alphabetically
+
+### Phase 3: Advanced Level (PLANNED)
+The Advanced Level will build upon the Intermediate Level with sophisticated features:
+- Recurring Tasks – Auto-reschedule repeating tasks (e.g., "weekly meeting")
+- Due Dates & Time Reminders – Set deadlines with date/time pickers; browser notifications
+- Export/import functionality for task data (while maintaining in-memory operation)
+- Task statistics and analytics
+- Customizable user preferences
+- Batch operations for task management
+- Advanced command history and shortcuts
+
 ## Scope Constraints
 
 Phase I is standalone with no persistence (no files, no database). Console-based interaction only. No web, no cloud, no agents. No advanced or intelligent features beyond the five core requirements.
@@ -40,4 +71,4 @@ Every change must follow this loop without skipping steps: Write or refine a Mar
 
 This constitution supersedes all other practices. All implementations must verify compliance with these principles. Amendments require documentation and approval. This constitution was ratified for the Todo In-Memory Python Console Application hackathon project.
 
-**Version**: 1.0.0 | **Ratified**: 2025-01-01 | **Last Amended**: 2025-12-30
+**Version**: 1.1.0 | **Ratified**: 2025-01-01 | **Last Amended**: 2026-01-01
