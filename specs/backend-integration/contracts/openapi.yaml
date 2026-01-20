@@ -1,0 +1,438 @@
+openapi: 3.0.3
+info:
+  title: Todo Backend API
+  description: REST API for managing user tasks in the Todo application
+  version: 1.0.0
+  contact:
+    name: Todo App Team
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: https://api.todoapp.com
+    description: Production server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - user_id
+        - title
+        - completed
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the task
+          example: 1
+        user_id:
+          type: string
+          description: Identifier of the user who owns the task
+          example: "user-123"
+        title:
+          type: string
+          description: Task title (1-200 characters)
+          minLength: 1
+          maxLength: 200
+          example: "Buy groceries"
+        description:
+          type: string
+          description: Optional task description (up to 1000 characters)
+          maxLength: 1000
+          example: "Need to buy milk, bread, and eggs"
+          nullable: true
+        due_date:
+          type: string
+          format: date-time
+          description: Optional due date for the task
+          example: "2023-12-31T23:59:59Z"
+          nullable: true
+        completed:
+          type: boolean
+          description: Whether the task is completed
+          default: false
+          example: false
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+          example: "2023-12-01T10:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+          example: "2023-12-01T10:00:00Z"
+
+    TaskCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: Task title (1-200 characters)
+          minLength: 1
+          maxLength: 200
+          example: "Buy groceries"
+        description:
+          type: string
+          description: Optional task description (up to 1000 characters)
+          maxLength: 1000
+          example: "Need to buy milk, bread, and eggs"
+          nullable: true
+        due_date:
+          type: string
+          format: date-time
+          description: Optional due date for the task
+          example: "2023-12-31T23:59:59Z"
+          nullable: true
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Task title (1-200 characters)
+          minLength: 1
+          maxLength: 200
+          example: "Buy groceries"
+        description:
+          type: string
+          description: Optional task description (up to 1000 characters)
+          maxLength: 1000
+          example: "Need to buy milk, bread, and eggs"
+          nullable: true
+        due_date:
+          type: string
+          format: date-time
+          description: Optional due date for the task
+          example: "2023-12-31T23:59:59Z"
+          nullable: true
+
+    TaskCompletionUpdate:
+      type: object
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Whether the task is completed
+          example: true
+
+    TaskListQuery:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [all, pending, completed]
+          description: Filter tasks by completion status
+          default: all
+          example: "pending"
+        sort:
+          type: string
+          enum: [created, title, due_date]
+          description: Sort tasks by specified field
+          default: created
+          example: "created"
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          description: Maximum number of tasks to return
+          example: 10
+        offset:
+          type: integer
+          minimum: 0
+          description: Number of tasks to skip
+          example: 0
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error type
+          example: "validation_error"
+        message:
+          type: string
+          description: Error message
+          example: "Title must be between 1 and 200 characters"
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "title"
+              message:
+                type: string
+                example: "Field required"
+
+  parameters:
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      description: The ID of the user
+      schema:
+        type: string
+        example: "user-123"
+
+    TaskId:
+      name: id
+      in: path
+      required: true
+      description: The ID of the task
+      schema:
+        type: integer
+        example: 1
+
+  responses:
+    UnauthorizedError:
+      description: Unauthorized - Invalid or missing JWT token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "unauthorized"
+            message: "Invalid or missing authentication token"
+
+    NotFoundError:
+      description: Not Found - Resource does not exist
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "not_found"
+            message: "Task not found"
+
+    ValidationError:
+      description: Validation Error - Request data is invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "validation_error"
+            message: "Validation failed"
+            details:
+              - field: "title"
+                message: "Field required"
+
+paths:
+  /api/{user_id}/tasks:
+    get:
+      summary: Get all tasks for a user
+      description: Retrieve all tasks belonging to the specified user with optional filtering and sorting
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - name: status
+          in: query
+          description: Filter tasks by completion status
+          schema:
+            type: string
+            enum: [all, pending, completed]
+            default: all
+        - name: sort
+          in: query
+          description: Sort tasks by specified field
+          schema:
+            type: string
+            enum: [created, title, due_date]
+            default: created
+        - name: limit
+          in: query
+          description: Maximum number of tasks to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          description: Number of tasks to skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Successfully retrieved tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - User does not have access to these tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "forbidden"
+                message: "Access denied to these tasks"
+      security:
+        - BearerAuth: []
+
+    post:
+      summary: Create a new task
+      description: Create a new task for the specified user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - User does not have permission to create tasks for another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - BearerAuth: []
+
+  /api/{user_id}/tasks/{id}:
+    get:
+      summary: Get a specific task
+      description: Retrieve a specific task by ID for the specified user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Successfully retrieved task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/NotFoundError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - BearerAuth: []
+
+    put:
+      summary: Update a specific task
+      description: Update all details of a specific task by ID for the specified user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - User does not have permission to update this task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - BearerAuth: []
+
+    delete:
+      summary: Delete a specific task
+      description: Delete a specific task by ID for the specified user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204':
+          description: Task deleted successfully
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - User does not have permission to delete this task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - BearerAuth: []
+
+  /api/{user_id}/tasks/{id}/complete:
+    patch:
+      summary: Toggle task completion status
+      description: Update only the completion status of a specific task by ID for the specified user
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCompletionUpdate'
+      responses:
+        '200':
+          description: Task completion status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden - User does not have permission to update this task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+      security:
+        - BearerAuth: []
